@@ -1,0 +1,7 @@
+{
+    "cortex-debug.armToolchainPath": "D:\\ARMTOOLCHAINCMAKE\\ARM-GNU-TOOLCHAIN-13.3.REL1\\BIN",
+    "cortex-debug.openocdPath": "D:\\ARMTOOLCHAINCMAKE\\OPENOCD-20240916-0.12.0\\BIN\\OPENOCD.EXE",
+    "files.associations": {
+        "main.h": "c"
+    }
+}

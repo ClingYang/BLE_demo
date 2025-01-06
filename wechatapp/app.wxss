@@ -1,0 +1,9 @@
+/**app.wxss**/
+.container {
+  min-height: 100vh;
+  background-color: RGD(242, 242, 242);
+}
+/*  display: flex; 可以让 视图水平分隔一次 */
+.flex{
+  display: flex;
+}

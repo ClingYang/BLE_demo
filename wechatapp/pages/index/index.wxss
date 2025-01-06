@@ -1,0 +1,158 @@
+.head_box {
+  /* 悬浮  .head_box>view */
+  display: flex;
+  /* 居中 */
+  /* justify-content: center; */
+  padding-top: 150rpx;
+}
+
+.head_box>image {
+  margin-left: 32rpx;
+  height: 100rpx;
+  width: 100rpx;
+}
+
+.head_box>view {
+  /* 图片和文字的间隔 */
+  margin-left: 15rpx;
+  /* 文字大小 */
+  font-size: 38rpx;
+  /* 文字粗细 */
+  font-weight: 600;
+  line-height: 100rpx;
+}
+
+.weather_box {
+
+  height: 320rpx;
+  margin: 38rpx 32rpx 0;
+  box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.3);
+  /* 圆角 */
+  border-radius: 32rpx;
+}
+
+.weather_text {
+
+  padding-top: 15rpx;
+  font-size: 26rpx;
+  text-align: center;
+  color: #9fbcf9;
+}
+
+.w50 {
+  width: 50%;
+}
+
+.location_text {
+  margin-top: 15rpx;
+}
+
+.temperature_text {
+  margin-top: 10rpx;
+  font-size: 80rpx;
+}
+
+.mqtt_box {
+  display: flex;
+  padding: 0 30rpx;
+  /* 两端对齐 */
+  justify-content: space-between;
+  height: 120rpx;
+  margin: 38rpx 32rpx 0;
+  box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.3);
+  /* 圆角 */
+  border-radius: 32rpx;
+  font-size: 45rpx;
+  line-height: 120rpx;
+}
+
+.btn_style {
+  /* background-color:red; */
+  margin: 40rpx 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.van-button,
+.van-button--default,
+.van-button--samll {
+  width: 250rpx;
+}
+
+.sub_text {
+  margin-left: 32rpx;
+}
+
+.pub_text {
+  margin-left: 32rpx;
+}
+
+.sensor-system-title {
+  margin: 32rpx 0 32rpx 34rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.sensor-system {
+  margin: 0 0 32rpx 34rpx;
+  display: flex;
+  flex-wrap: wrap;
+  width: 94%;
+}
+
+.system-info {
+  display: flex;
+  width: 330rpx;
+  height: 205rpx;
+  box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.3);
+  /* 圆角 */
+  border-radius: 32rpx;
+  background-color: #ffffff;
+  margin: 0 23rpx 23rpx 0;
+}
+
+.sensor-system-box1 {
+  margin-right: 15rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80rpx;
+}
+
+.sensor-system-box2 >view{
+  margin-top: 19rpx;
+  /* background-color: red; */
+  width: 190rpx;
+}
+.sensor-system-box3 {
+color: red;
+font-size: 65rpx;
+font-weight: 600;
+line-height: 205rpx;
+}
+.other-system{
+
+  /* height: 120rpx; */
+  padding:0 30rpx;
+  margin: 26rpx 32rpx 0;
+  box-shadow: 0 8rpx 20rpx 0 rgba(0, 0, 0, 0.3);
+  /* 圆角 */
+  border-radius: 32rpx;
+  background-color: #ffffff;
+  font-size: 45rpx;
+  line-height: 100rpx;
+}
+.devices_summary {
+  /* margin-top: 30px; */
+  padding: 10px;
+  font-size: 16px;
+}
+
+.device_item {
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+  color: #666;
+}
+.device_item_hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}

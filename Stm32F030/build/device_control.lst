@@ -1,0 +1,289 @@
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.arch armv6s-m
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.file	"device_control.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.file 1 "my_lib/device_control/device_control.c"
+  18              		.section	.rodata.controlDevice.str1.4,"aMS",%progbits,1
+  19              		.align	2
+  20              	.LC1:
+  21 0000 4F4E00   		.ascii	"ON\000"
+  22 0003 00       		.align	2
+  23              	.LC4:
+  24 0004 4F464600 		.ascii	"OFF\000"
+  25              		.section	.text.controlDevice,"ax",%progbits
+  26              		.align	1
+  27              		.global	controlDevice
+  28              		.syntax unified
+  29              		.code	16
+  30              		.thumb_func
+  32              	controlDevice:
+  33              	.LVL0:
+  34              	.LFB40:
+   1:my_lib/device_control/device_control.c **** #include "device_control.h"
+   2:my_lib/device_control/device_control.c **** #include <string.h>
+   3:my_lib/device_control/device_control.c **** extern UART_HandleTypeDef huart2;
+   4:my_lib/device_control/device_control.c **** Device devices[] = {
+   5:my_lib/device_control/device_control.c ****     {"LIGHT", GPIOB, GPIO_PIN_8},
+   6:my_lib/device_control/device_control.c ****     {"FAN", GPIOB, GPIO_PIN_9},
+   7:my_lib/device_control/device_control.c ****     {"CURTAIN", GPIOB, GPIO_PIN_7}};
+   8:my_lib/device_control/device_control.c **** 
+   9:my_lib/device_control/device_control.c **** #define DEVICE_COUNT (sizeof(devices) / sizeof(devices[0]))
+  10:my_lib/device_control/device_control.c **** 
+  11:my_lib/device_control/device_control.c **** /**
+  12:my_lib/device_control/device_control.c ****  * 控制设备的函数
+  13:my_lib/device_control/device_control.c ****  * 该函数通过接收一个包含设备控制指令的字符串来控制设备的开关
+  14:my_lib/device_control/device_control.c ****  *
+  15:my_lib/device_control/device_control.c ****  * @param rbuf 包含设备控制指令的字符串
+  16:my_lib/device_control/device_control.c ****  */
+  17:my_lib/device_control/device_control.c **** void controlDevice(const char *rbuf)
+  18:my_lib/device_control/device_control.c **** {
+  35              		.loc 1 18 1 view -0
+  36              		.cfi_startproc
+  37              		@ args = 0, pretend = 0, frame = 0
+  38              		@ frame_needed = 0, uses_anonymous_args = 0
+  39              		.loc 1 18 1 is_stmt 0 view .LVU1
+  40 0000 70B5     		push	{r4, r5, r6, lr}
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 2
+
+
+  41              		.cfi_def_cfa_offset 16
+  42              		.cfi_offset 4, -16
+  43              		.cfi_offset 5, -12
+  44              		.cfi_offset 6, -8
+  45              		.cfi_offset 14, -4
+  46 0002 0500     		movs	r5, r0
+  19:my_lib/device_control/device_control.c ****     // 遍历所有设备
+  20:my_lib/device_control/device_control.c ****     for (int i = 0; i < DEVICE_COUNT; i++)
+  47              		.loc 1 20 5 is_stmt 1 view .LVU2
+  48              	.LBB2:
+  49              		.loc 1 20 10 view .LVU3
+  50              	.LVL1:
+  51              		.loc 1 20 14 is_stmt 0 view .LVU4
+  52 0004 0024     		movs	r4, #0
+  53              		.loc 1 20 5 view .LVU5
+  54 0006 1AE0     		b	.L2
+  55              	.LVL2:
+  56              	.L4:
+  21:my_lib/device_control/device_control.c ****     {
+  22:my_lib/device_control/device_control.c ****         // 检查接收的字符串中是否包含当前设备的名称
+  23:my_lib/device_control/device_control.c ****         if (strstr((char *)rbuf, devices[i].deviceName))
+  24:my_lib/device_control/device_control.c ****         {
+  25:my_lib/device_control/device_control.c ****             // 如果包含设备名称，进一步检查是否包含"ON"或"OFF"指令
+  26:my_lib/device_control/device_control.c **** 
+  27:my_lib/device_control/device_control.c ****             if (strstr((char *)rbuf, "ON"))
+  28:my_lib/device_control/device_control.c ****             {
+  29:my_lib/device_control/device_control.c ****                 // 如果包含"ON"指令，设置设备的GPIO引脚为高电平，开启设备
+  30:my_lib/device_control/device_control.c ****                 HAL_GPIO_WritePin(devices[i].gpioPort, devices[i].gpioPin, GPIO_PIN_SET);
+  31:my_lib/device_control/device_control.c ****                 HAL_UART_Transmit(&huart2, (uint8_t *)rbuf, strlen(rbuf), HAL_MAX_DELAY);
+  32:my_lib/device_control/device_control.c ****             }
+  33:my_lib/device_control/device_control.c ****             else if (strstr((char *)rbuf, "OFF"))
+  57              		.loc 1 33 18 is_stmt 1 view .LVU6
+  58              		.loc 1 33 22 is_stmt 0 view .LVU7
+  59 0008 2149     		ldr	r1, .L7
+  60 000a 2800     		movs	r0, r5
+  61 000c FFF7FEFF 		bl	strstr
+  62              	.LVL3:
+  63              		.loc 1 33 21 discriminator 1 view .LVU8
+  64 0010 0028     		cmp	r0, #0
+  65 0012 13D0     		beq	.L3
+  34:my_lib/device_control/device_control.c ****             {
+  35:my_lib/device_control/device_control.c ****                 // 如果包含"OFF"指令，设置设备的GPIO引脚为低电平，关闭设备
+  36:my_lib/device_control/device_control.c ****                 HAL_GPIO_WritePin(devices[i].gpioPort, devices[i].gpioPin, GPIO_PIN_RESET);
+  66              		.loc 1 36 17 is_stmt 1 view .LVU9
+  67 0014 1F4B     		ldr	r3, .L7+4
+  68 0016 6200     		lsls	r2, r4, #1
+  69 0018 1219     		adds	r2, r2, r4
+  70 001a 9200     		lsls	r2, r2, #2
+  71 001c 9B18     		adds	r3, r3, r2
+  72 001e 1989     		ldrh	r1, [r3, #8]
+  73 0020 5868     		ldr	r0, [r3, #4]
+  74 0022 0022     		movs	r2, #0
+  75 0024 FFF7FEFF 		bl	HAL_GPIO_WritePin
+  76              	.LVL4:
+  37:my_lib/device_control/device_control.c ****                 HAL_UART_Transmit(&huart2, (uint8_t *)rbuf, strlen(rbuf), HAL_MAX_DELAY);
+  77              		.loc 1 37 17 view .LVU10
+  78              		.loc 1 37 61 is_stmt 0 view .LVU11
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 3
+
+
+  79 0028 2800     		movs	r0, r5
+  80 002a FFF7FEFF 		bl	strlen
+  81              	.LVL5:
+  82              		.loc 1 37 17 discriminator 1 view .LVU12
+  83 002e 0123     		movs	r3, #1
+  84 0030 82B2     		uxth	r2, r0
+  85 0032 1948     		ldr	r0, .L7+8
+  86 0034 5B42     		rsbs	r3, r3, #0
+  87 0036 2900     		movs	r1, r5
+  88 0038 FFF7FEFF 		bl	HAL_UART_Transmit
+  89              	.LVL6:
+  90              	.L3:
+  20:my_lib/device_control/device_control.c ****     {
+  91              		.loc 1 20 40 is_stmt 1 discriminator 2 view .LVU13
+  92 003c 0134     		adds	r4, r4, #1
+  93              	.LVL7:
+  94              	.L2:
+  20:my_lib/device_control/device_control.c ****     {
+  95              		.loc 1 20 23 discriminator 1 view .LVU14
+  96 003e 022C     		cmp	r4, #2
+  97 0040 24D8     		bhi	.L6
+  23:my_lib/device_control/device_control.c ****         {
+  98              		.loc 1 23 9 view .LVU15
+  23:my_lib/device_control/device_control.c ****         {
+  99              		.loc 1 23 13 is_stmt 0 view .LVU16
+ 100 0042 144A     		ldr	r2, .L7+4
+ 101 0044 6300     		lsls	r3, r4, #1
+ 102 0046 1B19     		adds	r3, r3, r4
+ 103 0048 9B00     		lsls	r3, r3, #2
+ 104 004a 9958     		ldr	r1, [r3, r2]
+ 105 004c 2800     		movs	r0, r5
+ 106 004e FFF7FEFF 		bl	strstr
+ 107              	.LVL8:
+  23:my_lib/device_control/device_control.c ****         {
+ 108              		.loc 1 23 12 discriminator 1 view .LVU17
+ 109 0052 0028     		cmp	r0, #0
+ 110 0054 F2D0     		beq	.L3
+  27:my_lib/device_control/device_control.c ****             {
+ 111              		.loc 1 27 13 is_stmt 1 view .LVU18
+  27:my_lib/device_control/device_control.c ****             {
+ 112              		.loc 1 27 17 is_stmt 0 view .LVU19
+ 113 0056 1149     		ldr	r1, .L7+12
+ 114 0058 2800     		movs	r0, r5
+ 115 005a FFF7FEFF 		bl	strstr
+ 116              	.LVL9:
+  27:my_lib/device_control/device_control.c ****             {
+ 117              		.loc 1 27 16 discriminator 1 view .LVU20
+ 118 005e 0028     		cmp	r0, #0
+ 119 0060 D2D0     		beq	.L4
+  30:my_lib/device_control/device_control.c ****                 HAL_UART_Transmit(&huart2, (uint8_t *)rbuf, strlen(rbuf), HAL_MAX_DELAY);
+ 120              		.loc 1 30 17 is_stmt 1 view .LVU21
+ 121 0062 0C4B     		ldr	r3, .L7+4
+ 122 0064 6200     		lsls	r2, r4, #1
+ 123 0066 1219     		adds	r2, r2, r4
+ 124 0068 9200     		lsls	r2, r2, #2
+ 125 006a 9B18     		adds	r3, r3, r2
+ 126 006c 1989     		ldrh	r1, [r3, #8]
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 4
+
+
+ 127 006e 5868     		ldr	r0, [r3, #4]
+ 128 0070 0122     		movs	r2, #1
+ 129 0072 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 130              	.LVL10:
+  31:my_lib/device_control/device_control.c ****             }
+ 131              		.loc 1 31 17 view .LVU22
+  31:my_lib/device_control/device_control.c ****             }
+ 132              		.loc 1 31 61 is_stmt 0 view .LVU23
+ 133 0076 2800     		movs	r0, r5
+ 134 0078 FFF7FEFF 		bl	strlen
+ 135              	.LVL11:
+  31:my_lib/device_control/device_control.c ****             }
+ 136              		.loc 1 31 17 discriminator 1 view .LVU24
+ 137 007c 0123     		movs	r3, #1
+ 138 007e 82B2     		uxth	r2, r0
+ 139 0080 0548     		ldr	r0, .L7+8
+ 140 0082 5B42     		rsbs	r3, r3, #0
+ 141 0084 2900     		movs	r1, r5
+ 142 0086 FFF7FEFF 		bl	HAL_UART_Transmit
+ 143              	.LVL12:
+ 144 008a D7E7     		b	.L3
+ 145              	.L6:
+  31:my_lib/device_control/device_control.c ****             }
+ 146              		.loc 1 31 17 discriminator 1 view .LVU25
+ 147              	.LBE2:
+  38:my_lib/device_control/device_control.c ****             }
+  39:my_lib/device_control/device_control.c ****         }
+  40:my_lib/device_control/device_control.c ****     }
+  41:my_lib/device_control/device_control.c **** }...
+ 148              		.loc 1 41 1 view .LVU26
+ 149              		@ sp needed
+ 150              	.LVL13:
+ 151              	.LVL14:
+ 152              		.loc 1 41 1 view .LVU27
+ 153 008c 70BD     		pop	{r4, r5, r6, pc}
+ 154              	.L8:
+ 155 008e C046     		.align	2
+ 156              	.L7:
+ 157 0090 04000000 		.word	.LC4
+ 158 0094 00000000 		.word	devices
+ 159 0098 00000000 		.word	huart2
+ 160 009c 00000000 		.word	.LC1
+ 161              		.cfi_endproc
+ 162              	.LFE40:
+ 164              		.global	devices
+ 165              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 166              		.align	2
+ 167              	.LC6:
+ 168 0000 4C494748 		.ascii	"LIGHT\000"
+ 168      5400
+ 169 0006 0000     		.align	2
+ 170              	.LC7:
+ 171 0008 46414E00 		.ascii	"FAN\000"
+ 172              		.align	2
+ 173              	.LC8:
+ 174 000c 43555254 		.ascii	"CURTAIN\000"
+ 174      41494E00 
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 5
+
+
+ 175              		.section	.data.devices,"aw"
+ 176              		.align	2
+ 179              	devices:
+ 180 0000 00000000 		.word	.LC6
+ 181 0004 00040048 		.word	1207960576
+ 182 0008 0001     		.short	256
+ 183 000a 0000     		.space	2
+ 184 000c 08000000 		.word	.LC7
+ 185 0010 00040048 		.word	1207960576
+ 186 0014 0002     		.short	512
+ 187 0016 0000     		.space	2
+ 188 0018 0C000000 		.word	.LC8
+ 189 001c 00040048 		.word	1207960576
+ 190 0020 8000     		.short	128
+ 191 0022 0000     		.space	2
+ 192              		.text
+ 193              	.Letext0:
+ 194              		.file 2 "D:/ARMTOOLCHAINCMAKE/ARM-GNU-TOOLCHAIN-13.3.REL1/arm-none-eabi/include/machine/_default_t
+ 195              		.file 3 "D:/ARMTOOLCHAINCMAKE/ARM-GNU-TOOLCHAIN-13.3.REL1/arm-none-eabi/include/sys/_stdint.h"
+ 196              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x8.h"
+ 197              		.file 5 "D:/ARMTOOLCHAINCMAKE/ARM-GNU-TOOLCHAIN-13.3.REL1/lib/gcc/arm-none-eabi/13.3.1/include/std
+ 198              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 199              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 200              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 201              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_uart.h"
+ 202              		.file 10 "my_lib/device_control/device_control.h"
+ 203              		.file 11 "D:/ARMTOOLCHAINCMAKE/ARM-GNU-TOOLCHAIN-13.3.REL1/arm-none-eabi/include/string.h"
+ARM GAS  C:\Users\Hero\AppData\Local\Temp\ccglayy5.s 			page 6
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 device_control.c
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:19     .rodata.controlDevice.str1.4:00000000 $d
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:26     .text.controlDevice:00000000 $t
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:32     .text.controlDevice:00000000 controlDevice
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:157    .text.controlDevice:00000090 $d
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:179    .data.devices:00000000 devices
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:166    .rodata.str1.4:00000000 $d
+C:\Users\Hero\AppData\Local\Temp\ccglayy5.s:176    .data.devices:00000000 $d
+
+UNDEFINED SYMBOLS
+strstr
+HAL_GPIO_WritePin
+strlen
+HAL_UART_Transmit
+huart2

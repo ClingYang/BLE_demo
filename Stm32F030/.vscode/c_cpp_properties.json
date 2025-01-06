@@ -1,0 +1,21 @@
+{
+  "configurations": [
+    {
+      "name": "STM32",
+      "includePath": [
+        "Core/Inc",
+        "Drivers/CMSIS/Device/ST/STM32F0xx/Include",
+        "Drivers/CMSIS/Include",
+        "Drivers/STM32F0xx_HAL_Driver/Inc",
+        "Drivers/STM32F0xx_HAL_Driver/Inc/Legacy",
+        "my_lib/device_control"
+      ],
+      "defines": [
+        "STM32F030x8",
+        "USE_HAL_DRIVER"
+      ],
+      "compilerPath": "D:\\ARMTOOLCHAINCMAKE\\ARM-GNU-TOOLCHAIN-13.3.REL1\\BIN\\ARM-NONE-EABI-GCC.EXE"
+    }
+  ],
+  "version": 4
+}
